@@ -14,7 +14,6 @@ export async function POST(req: NextRequest) {
     } = await req.json();
 
     await client.lPush("submissions", JSON.stringify(submission));
-    console.log(JSON.stringify(req.body));
     return NextResponse.json({
         message: "Submitted successfully"
     })
