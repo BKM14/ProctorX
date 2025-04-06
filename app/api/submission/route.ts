@@ -1,5 +1,6 @@
 import { client } from "@/packages/redis";
 import { NextRequest, NextResponse } from "next/server";
+import { v4 as uuidv4 } from "uuid";
 
 export function GET() {
     return NextResponse.json({
@@ -8,13 +9,25 @@ export function GET() {
 }
 
 export async function POST(req: NextRequest) {
-    const submission: {
+    const payload: {
         lang: string,
         code: string
     } = await req.json();
 
+    const id = uuidv4();
+    const submission = {...payload, id}
+
     await client.lPush("submissions", JSON.stringify(submission));
+
+    await client.subscribe(id, (message) => {
+
+        console.log(`Output for ${id}:`);
+        console.log(message)
+        
+    });
+
     return NextResponse.json({
-        message: "Submitted successfully"
+        message: "Submitted successfully",
+        channelSubscribed: id
     })
 }
