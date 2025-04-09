@@ -1,7 +1,11 @@
 import { createClient } from 'redis';
 
 export const client = createClient();
+export const pubSubClient = createClient();
 
 client.on('error', err => console.log('Redis Client Error', err));
 
-await client.connect();
+(async () => {
+    await client.connect();
+    await pubSubClient.connect();
+})();

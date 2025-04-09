@@ -1,4 +1,4 @@
-import { client } from "@/packages/redis";
+import { client, pubSubClient } from "@/packages/redis";
 import { NextRequest, NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
 
@@ -19,8 +19,7 @@ export async function POST(req: NextRequest) {
 
     await client.lPush("submissions", JSON.stringify(submission));
 
-    await client.subscribe(id, (message) => {
-
+    await pubSubClient.subscribe(id, (message) => {
         console.log(`Output for ${id}:`);
         console.log(message)
         
