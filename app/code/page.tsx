@@ -3,6 +3,7 @@
 import Editor from '@monaco-editor/react';
 import { useState } from 'react';
 import { submitCode } from '../actions';
+import { Button } from '@/components/ui/button';
 
 export default function Page() {
 
@@ -27,13 +28,13 @@ export default function Page() {
       language='python'
       onChange={handleChange}
     />
-    <button className='p-3 bg-amber-400 cursor-pointer mx-4 rounded-md' onClick={() => {
+    <Button className='p-3 cursor-pointer mx-4 rounded-md' onClick={() => {
       submitCode({
         lang: "py",
         code: code
       })
     }}>
       Run Code
-    </button>
+    </Button>
   </>
 }
