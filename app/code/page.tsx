@@ -14,6 +14,7 @@ export default function Page() {
   
   return <>
     <Editor 
+      className='m-4'
       height={"70vh"} 
       defaultValue={code}
       theme="vs-dark"
@@ -26,7 +27,7 @@ export default function Page() {
       language='python'
       onChange={handleChange}
     />
-    <button onClick={() => {
+    <button className='p-3 bg-amber-400 cursor-pointer mx-4 rounded-md' onClick={() => {
       submitCode({
         lang: "py",
         code: code
