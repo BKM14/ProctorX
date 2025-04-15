@@ -19,14 +19,18 @@ export async function POST(req: NextRequest) {
 
     await client.lPush("submissions", JSON.stringify(submission));
 
-    await pubSubClient.subscribe(id, (message) => {
-        console.log(`Output for ${id}:`);
-        console.log(message)
-        
-    });
+    const output: string = await new Promise((resolve) => {
+        pubSubClient.subscribe(id, (message) => {
+            console.log(`Output for ${id}:`);
+            console.log(message);
+            pubSubClient.unsubscribe(id);
+            resolve(message);
+        })
+    })
 
     return NextResponse.json({
         message: "Submitted successfully",
-        channelSubscribed: id
+        channelSubscribed: id,
+        output: output
     })
 }
