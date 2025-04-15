@@ -16,6 +16,10 @@ export async function submitCode(submission: submissionInterface) {
         body: JSON.stringify(submission),
     })
 
-    const data = await response.json();
-    console.log(data);
+    const data: {
+        message: string;
+        channelSubscribed: string;
+        output: string;
+    } = await response.json();
+    return data.output;
 }
