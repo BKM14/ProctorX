@@ -81,7 +81,7 @@ export default function Page() {
       </div>
     </div>
 
-    <Button className={`bg-green-600 hover:bg-green-700 duration-350 p-3 cursor-pointer m-4 rounded-md w-1/12 ${codeExecuting ? "disabled" : ""} font-bold`} onClick={async () => {
+    <Button disabled={codeExecuting} className="bg-green-600 hover:bg-green-700 duration-350 p-3 cursor-pointer m-4 rounded-md w-1/12 font-bold" onClick={async () => {
       setResult([]);
       setCodeExecuting(true);
       const result = await submitCode({
