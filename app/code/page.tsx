@@ -55,7 +55,22 @@ export default function Page() {
   const setBoilerPlateCode = (newCode: string) => setCode(newCode);
 
   return <>
-    <SelectLanguage languages={languages} setNewLanguage={setLanguage} setBoilerPlateCode={setBoilerPlateCode} boilerPlate={boilerPlate}/>
+    
+    <div className='flex'>
+      <SelectLanguage languages={languages} setNewLanguage={setLanguage} setBoilerPlateCode={setBoilerPlateCode} boilerPlate={boilerPlate}/>
+      <Button disabled={codeExecuting} className="bg-green-600 hover:bg-green-700 duration-350 p-3 cursor-pointer m-4 rounded-md w-1/12 font-bold" onClick={async () => {
+        setResult([]);
+        setCodeExecuting(true);
+        const result = await submitCode({
+          lang: language,
+          code: code
+        })
+        setResult(result.split("\n"));
+        setCodeExecuting(false);
+      }}>
+        {codeExecuting ? <Loader2 className='animate-spin' /> : "Run"}
+      </Button>
+    </div>
     
     <div className='grid grid-cols-2 mx-4'>
       <Editor 
@@ -80,19 +95,5 @@ export default function Page() {
         ))}
       </div>
     </div>
-
-    <Button disabled={codeExecuting} className="bg-green-600 hover:bg-green-700 duration-350 p-3 cursor-pointer m-4 rounded-md w-1/12 font-bold" onClick={async () => {
-      setResult([]);
-      setCodeExecuting(true);
-      const result = await submitCode({
-        lang: language,
-        code: code
-      })
-      setResult(result.split("\n"));
-      setCodeExecuting(false);
-    }}>
-      {codeExecuting ? <Loader2 className='animate-spin' /> : "Run"}
-    </Button>
-
   </>
 }
