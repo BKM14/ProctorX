@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { submitCode } from '../actions';
 import { Button } from '@/components/ui/button';
 import SelectLanguage from '@/components/ui/select-language';
+import { Loader2 } from 'lucide-react';
 
 export default function Page() {
 
@@ -15,6 +16,8 @@ export default function Page() {
   const [result, setResult] = useState<string[]>([]);
 
   const [language, setLanguage] = useState<"py" | "java" | "cpp" | "c">("py");
+
+  const [codeExecuting, setCodeExecuting] = useState(false);
 
   const languages = [
     { value: "py", label: "Python" },
@@ -52,7 +55,23 @@ export default function Page() {
   const setBoilerPlateCode = (newCode: string) => setCode(newCode);
 
   return <>
-    <SelectLanguage languages={languages} setNewLanguage={setLanguage} setBoilerPlateCode={setBoilerPlateCode} boilerPlate={boilerPlate}/>
+    
+    <div className='flex'>
+      <SelectLanguage languages={languages} setNewLanguage={setLanguage} setBoilerPlateCode={setBoilerPlateCode} boilerPlate={boilerPlate}/>
+      <Button disabled={codeExecuting} className="bg-green-600 hover:bg-green-700 duration-350 p-3 cursor-pointer m-4 rounded-md w-1/12 font-bold" onClick={async () => {
+        setResult([]);
+        setCodeExecuting(true);
+        const result = await submitCode({
+          lang: language,
+          code: code
+        })
+        setResult(result.split("\n"));
+        setCodeExecuting(false);
+      }}>
+        {codeExecuting ? <Loader2 className='animate-spin' /> : "Run"}
+      </Button>
+    </div>
+    
     <div className='grid grid-cols-2 mx-4'>
       <Editor 
         height={"70vh"}
@@ -68,6 +87,7 @@ export default function Page() {
         defaultLanguage='python'
         onChange={handleChange}
       />
+
       <div className=' bg-gray-300'>
         <div className='font-bold text-4xl text-center'>Your output</div>
         {result.map((output, index) => (
@@ -75,15 +95,5 @@ export default function Page() {
         ))}
       </div>
     </div>
-    <Button className='p-3 cursor-pointer m-4 rounded-md' onClick={async () => {
-      const result = await submitCode({
-        lang: language,
-        code: code
-      })
-      console.log(result.split("\n"))
-      setResult(result.split("\n"));
-    }}>
-      Run Code
-    </Button>
   </>
 }
