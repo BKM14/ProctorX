@@ -55,7 +55,6 @@ export default function Page() {
   const setBoilerPlateCode = (newCode: string) => setCode(newCode);
 
   return <>
-    
     <div className='flex'>
       <SelectLanguage languages={languages} setNewLanguage={setLanguage} setBoilerPlateCode={setBoilerPlateCode} boilerPlate={boilerPlate}/>
       <Button disabled={codeExecuting} className="bg-green-600 hover:bg-green-700 duration-350 p-3 cursor-pointer m-4 rounded-md w-1/12 font-bold" onClick={async () => {
@@ -90,9 +89,11 @@ export default function Page() {
 
       <div className=' bg-gray-300'>
         <div className='font-bold text-4xl text-center'>Your output</div>
-        {result.map((output, index) => (
-          <div key={index}>{output}</div>
-        ))}
+        <div className='shadow-2xl shadow-gray-700/60 ring-4 bg-gray-500 mx-auto my-4 h-5/6 w-[90%]'>
+            {result.map((output, index) => (
+              <div key={index} className='text-white mx-2 font-semibold text-xl'> {output}</div>
+            ))}
+        </div>
       </div>
     </div>
   </>
