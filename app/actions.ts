@@ -1,5 +1,8 @@
 "use server";
 
+import { prisma } from "@/packages/prisma/prisma";
+import bcrypt from "bcrypt";
+
 interface submissionInterface {
     lang: string;
     code: string;
@@ -22,4 +25,19 @@ export async function submitCode(submission: submissionInterface) {
         output: string;
     } = await response.json();
     return data.output;
+}
+
+export async function getUserFromDB({email, password}: {
+    email: string,
+    password: string
+}) {
+    const user = await prisma.user.findFirst({
+        where: {
+            email: email
+        }
+    })
+
+    if (user && await bcrypt.compare(password, user.password)) return user;
+
+    return null;
 }
