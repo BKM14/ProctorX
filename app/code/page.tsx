@@ -6,8 +6,16 @@ import { submitCode } from '../actions';
 import { Button } from '@/components/ui/button';
 import SelectLanguage from '@/components/ui/select-language';
 import { Loader2 } from 'lucide-react';
+import { useSession } from 'next-auth/react';
+import { redirect } from 'next/navigation';
 
 export default function Page() {
+
+  const {data: session} = useSession();
+
+  if (!session) {
+    redirect("/api/auth/signin");
+  }
 
   const handleChange = (value: string | undefined) => {
     setCode(value || "");
