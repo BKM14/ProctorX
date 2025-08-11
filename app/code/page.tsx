@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { submitCode } from '../actions';
 import { Button } from '@/components/ui/button';
 import SelectLanguage from '@/components/ui/select-language';
-import { Loader2 } from 'lucide-react';
+import { Loader2, TerminalIcon } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
 
@@ -79,7 +79,7 @@ export default function Page() {
       </Button>
     </div>
     
-    <div className='grid grid-cols-2 mx-4'>
+    <div className='grid grid-cols-2 mx-4 gap-x-3'>
       <Editor 
         height={"70vh"}
         value={code}
@@ -89,17 +89,24 @@ export default function Page() {
           lineHeight: 24,
           tabSize: 4,
           autoIndent: "full",
+          minimap: {
+            enabled: false
+          }
         }}
+        className='custom-monaco-border'
         language={language == "py" ? "python" : language}
         defaultLanguage='python'
         onChange={handleChange}
       />
-
-      <div className=' bg-gray-300'>
-        <div className='font-bold text-4xl text-center'>Your output</div>
-        <div className='shadow-2xl shadow-gray-700/60 ring-4 bg-gray-500 mx-auto my-4 h-5/6 w-[90%]'>
+      <div className=' rounded-[7px] border-1 bg-slate-900 text-white'>
+        <div className='flex ml-2'>
+          <TerminalIcon color='white' className='mt-1'/>
+          <div className='text-md mx-2 mt-1'>Console</div>
+          <div className='w-full border-b-1 border-l-1 border-gray-800'></div>
+        </div>
+        <div className='mt-4'>
             {result.map((output, index) => (
-              <div key={index} className='text-white mx-2 font-semibold text-xl'> {output}</div>
+              <div key={index} className='mx-2 text-md'> {'> ' + output}</div>
             ))}
         </div>
       </div>
