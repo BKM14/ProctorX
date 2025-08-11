@@ -30,7 +30,7 @@ export default function NavBar() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="mx-2 bg-[#1A1C25] text-white">
                     <DropdownMenuItem className="cursor-pointer" onClick={async () => {
-                        await signOut({ callbackUrl: 'http://localhost:3000/code' });
+                        await signOut({ callbackUrl: `${process.env.NEXT_PUBLIC_NEXTAUTH_SECRET}/api/auth/signin` });
                     }}>
                     <LogOut />
                     <span>Log out</span>
