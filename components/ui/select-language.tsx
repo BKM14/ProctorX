@@ -25,10 +25,10 @@ export default function SelectLanguage({languages, setNewLanguage, setBoilerPlat
         setNewLanguage((newLanguage as "java" | "c" | "cpp" | "py") || "py")
         setBoilerPlateCode(boilerPlate[newLanguage as "java" | "c" | "cpp" | "py"])
     }}>
-        <SelectTrigger className="w-1/6 m-4">
+        <SelectTrigger className="w-1/8 m-4 text-white">
             <SelectValue placeholder="Python" />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className="bg-[#1A1C25] text-white">
             {languages.map((language) => (
                 <SelectItem key={language.value} value={language.value}>
                     {language.label}

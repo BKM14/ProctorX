@@ -35,8 +35,10 @@ export default async function RootLayout({
         <body
             className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-            <NavBar />
-            {children}
+            <div className="bg-[#0F1017] min-h-screen">
+              <NavBar />
+              {children}
+            </div>
         </body>
         </html>
     </SessionWrapper>

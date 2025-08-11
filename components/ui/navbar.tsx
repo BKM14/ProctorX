@@ -20,17 +20,17 @@ export default function NavBar() {
     }
 
     return (
-        <div className="flex justify-between bg-slate-100">
-            <div className="text-4xl font-bold ml-4 my-4">ProctorX</div>
+        <div className="flex justify-between bg-black text-white">
+            <div className="text-2xl font-bold ml-4 my-4 ">ProctorX</div>
             <DropdownMenu>
                 <DropdownMenuTrigger>
-                    <Avatar className="border-4 p-4 border-black mr-16 my-4 cursor-pointer">
+                    <Avatar className="border-2 p-4 border-white mr-4 my-4 cursor-pointer">
                         <AvatarFallback>{initials}</AvatarFallback>
                     </Avatar>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="mx-2">
+                <DropdownMenuContent className="mx-2 bg-[#1A1C25] text-white">
                     <DropdownMenuItem className="cursor-pointer" onClick={async () => {
-                        await signOut({ callbackUrl: 'http://localhost:3000/code' });
+                        await signOut({ callbackUrl: `${process.env.NEXT_PUBLIC_NEXTAUTH_SECRET}/api/auth/signin` });
                     }}>
                     <LogOut />
                     <span>Log out</span>
